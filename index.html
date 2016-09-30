@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+		<title>Exploring Drupal 8 - Training Day</title>
+    <meta name="description" content="An introduction to Drupal 8 Module Development.">
+    <meta name="author" content="Nick Selvaggio">
+    <meta name="author" content="Mai Irie">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="training/training_style.css">
+
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header>
+      <div class="stack-starter">
+        <blockquote>StackStarter.io/spin</blockquote>
+      </div>
+      <div class="spin-code">
+        <blockquote>Spin Code: #nedcamp</blockquote>
+      </div>
+    </header>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <!-- Title Slide -->
+        <section>
+          <h2>Drupal 8 Module Development</h2>
+          <img class="no-style-image" style= "width: 160px;" src="images/d8_logo.png"/>
+          <h6>A guided tour</h6>
+          <p>
+            <small><a href="http://www.segosolutions.com">Nick Selvaggio </a> | Sego Solutions</small>
+          </p>
+        </section>
+
+        <!-- Introduction -->
+        <section>
+          <section>
+            <h2>A little about us.</h2>
+          </section>
+
+          <!-- About Nick slide -->
+          <section>
+            <p>
+              <img class="photo" src="images/trainer_pics/nick.png" />
+            </p>
+            <p>Hi! I'm Nick. <br /> I'm a Managing Partner @<br />
+              <img class="clean" src="images/logos/sego_logo_blkbg.png" alt="Sego Logo" height="50" border="0" />
+            </p>
+          </section>
+
+          <!-- About Mike slide -->
+          <section>
+            <p>
+              <img class="photo" src="images/trainer_pics/mm.png" />
+            </p>
+            <p>Hi! I'm Mike. <br /> I'm a Managing Partner @<br />
+              <img class="clean" src="images/logos/sego_logo_blkbg.png" alt="SegoLogo" height="50" border="0" />
+            </p>
+          </section>
+
+
+        <!-- Thank yous! -->
+        <section>
+          <h2>Thank you to the organizers of NEDCamp!</h2>
+          <aside class="notes">
+            <ul>
+              <li></li>
+            </ul>
+          </aside>
+        </section>
+
+
+        <!-- Community and Resources -->
+        <section>
+          <h2>About Drupal LI</h2>
+          <p>Join your <a href="https://www.meetup.com/Long-Island-Drupal-Group/">local community!</a></p>
+          <p>Next Meetup is <strong>Wed, May 4th</strong></p>
+          <aside class="notes">
+            <ul>
+              <li>We meet the 3rd Wednesday of the month in Huntington.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section>
+          <h2>Try Drupal</h2>
+          <p><a href="http://www.trydrupal8.com">TryDrupal8.com</a></p>
+          <p>We also did a podcast series: <a href="http://www.talkingdrupal.com/">Talking Drupal Podcast</a></p>
+          <aside class="notes">
+            <ul>
+              <li>Try Drupal platform</li>
+              <li>About the podcast: http://www.talkingdrupal.com/</li>
+            </ul>
+          </aside>
+        </section>
+      </section>
+
+        <!-- About Attendees -->
+        <section data-transition="linear" data-background="#527c97" data-background-transition="slide">
+          <h2>A little about you.</h2>
+          <aside class="notes">
+              <ul>
+                <li>How many have experience with Drupal 7? 6?</li>
+                <li>From other environments? Ruby, Python, .NET</li>
+                <li>Who has tried to develop a module or a theme for D8 already?</li>
+              </ul>
+            </aside>
+        </section>
+
+        <!-- Agenda -->
+        <section>
+          <h2>What are we doing today?</h2>
+          <ul>
+            <li>Quick Overview of Drupal Landscape</li>
+            <li>Tips on Tools</li>
+            <li>Get our environment spun up!</li>
+            <li>Review the structure of a D8 application.</li>
+            <li>Dive into a basic module example</li>
+            <li>Break for lunch @ 12:30</li>
+            <li>Create a module with a custom block and more! (thanks @tedbow for <a href="https://www.drupal.org/project/role_notices">role_notices</a> module!)</li>
+          </ul>
+          <aside class="notes">
+            <ul>
+              <li>We will be going through a lot of content!</li>
+              <li>Today's goal is for you to walk away knowing how to create a module, implement a plugin (Block), create a form (block config), and more!</li>
+              <li>If we have time, then we'll lightly cover testing.</li>
+              <li>A spin environment has been configured for your enjoyment! (we'll get to that later)</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- Part 1: Quick Overview of D8 Landscape -->
+        <section>
+          <!-- History -->
+          <section>
+            <h2>Let's talk about Drupal 8</h2>
+            <aside class="notes">
+              <ul>
+                <li>Talk a bit about the history of Drupal.</li>
+                <li>Initial release 2001</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Where have we come from?</h2>
+            <blockquote>Our many stages of evolution</blockquote>
+            <img src="http://i.giphy.com/EpB8oRhHSQcnu.gif"/>
+            <aside class="notes">
+              <ul>
+                <li>8 Major versions</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Where are we now?</h2>
+            <blockquote>A revolution has happened!</blockquote>
+            <img src="http://i.giphy.com/TM08ClADyrUC4.gif"/>
+
+            <aside class="notes">
+              <p> What's different about developing for D8?</p>
+              <ul>
+                <li>PHP 5.5 Required!</li>
+                <li>Symfony2 Framework and Object-oriented programming</li>
+                <li>Goodbye hooks (for the most part) & Hello Routes, Plugins, Services, and Events</li>
+                <li>Configuration and Bundle Entities</li>
+                <li>Better Test Framework -- Kernel replaces SimpleTests, Unit Tests</li>
+                <li>Caching -- D8 uses partial page caching and cache tags. Twig templates get compiled and cached.</li>
+                <li>Composer</li>
+                <li>Different directory structure -- Core is in the directory "core"; your modules and themes go into the modules and themes directories in the project root.</li>
+                <li>Twig and SMACSS & BEM standards, and Stable and Classy core base themes</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+           <h2>Getting off the island.</h2>
+           <aside class="notes">
+            <ul>
+              <li>Its important for our survival to embrace the larger scope of PHP</li>
+              <li>But if you would like to come to OUR Island we would love to have you!</li>
+            </ul>
+          </aside>
+          </section>
+          <section>
+             <h2>What components is D8 using?</h2>
+             <p class="fragment" data-fragment-index="1">Symfony Components (HTTP Foundation, Routing, Dependency Injection, YAML, etc)</p>
+             <p class="fragment" data-fragment-index="2">Doctrine Annotations</p>
+             <p class="fragment" data-fragment-index="3">Twig theme system</p>
+             <p class="fragment" data-fragment-index="4">PHP Unit for testing</p>
+             <div class="fragment" data-fragment-index="5">
+             <blockquote>For a full list: <br/>/core/composer.json</blockquote>
+           		</div>
+              <aside class="notes">
+              <ul>
+                <li>Talk about the PHP 4 request cycle (Super globals --> PHP --> print)</li>
+                <li>Web architecture of Request --> Response</li>
+                <li>Synfomy HTTPKernel Request --> Response</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+
+        <!-- Who's using Drupal 8 now? -->
+        <section>
+          <section>
+            <h2>Who using Drupal 8 now?</h2>
+          </section>
+
+          <section>
+            <h2>Memorial Sloan Kettering Cancer Center (MSK)</h2>
+            <p>
+              One of the largest cancer centers in the United States, launched the new <a href="https://www.mskcc.org/">mskcc.org </a> in May. It chose Drupal 8, even when the software was still in its beta phase, to help extend the reach of its "More Science. Less Fear" campaign.
+            </p>
+          </section>
+
+          <section>
+            <h2>Johnson & Johnson</h2>
+            <p>
+              Partnered with IBM, Apple and Medtronic to launch <a href="http://careadvantage.jnj.com/">Care Advantage</a>, a personal concierge service to prepare patients for knee surgery and to help them deal with its after effects.
+            </p>
+            <aside class="notes">
+              <p>This site is actually two sites, one with a front end and one that's headless (used as the backend to a mobile app).</p>
+              <p>Using IBM's Watson!</p>
+            </aside>
+          </section>
+
+          <section>
+            <h2>CH2M</h2>
+            <p>
+              <a href="http://www.ch2m.com/">CH2M</a> is a global corporation that works to keep governments, infrastructure, and environments sustainable. It uses Drupal 8 to present and prove its capabilities.
+            </p>
+          </section>
+
+          <section>
+            <h2>Many, Many, Many More</h2>
+            <p><a href="https://www.drupal.org/case-studies/featured/all/drupal-8.x">drupal.org/case-studies/featured/all/drupal-8.x</a></p>
+          </section>
+        </section>
+
+        <!-- Tips on Tools -->
+        <section>
+          <section>
+             <h2>Tips on Tools</h2>
+             <ul>
+               <li>You will want a robust IDE (PHPStorm, Eclipse, Netbeans)</li>
+               <li>Install and setup <a href="https://xdebug.org/">XDebug</a> with your IDE</li>
+               <li><a href="https://drupalconsole.com/">Drupal Console</a></li>
+               <li>Get acquainted with the <strong>Web Profiler</strong> module packaged with <a href="https://www.drupal.org/project/devel">Devel</a></li>
+             </ul>
+             <aside class="notes">
+              <ul>
+                <li>The importance of an IDE goes hand in hand with D8's shift to OOP. You will be extending classes provided by Drupal core when developing modules. An IDE will be able to tell when you are doing this incorrectly and let you know what you will need to do to correct it.</li>
+                <li>The Drupal Console is a CLI tool to generate boilerplate code, interact and debug Drupal 8.</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+
+        <!-- Pair up and get setup! -->
+        <section>
+          <section>
+            <h2>Lets dive in!</h2>
+            <img src="images/dive_in.gif"/>
+             <aside class="notes">
+              <ul>
+                <li>It's time to pair up and set up!</li>
+                <li>Briefly describe how pair programming works</li>
+                <li>We will ask you to periodically switch driver seats</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Play Along!</h2>
+            <img src="images/logos/ss_logo_blkbg.png" class="no-style-image" style="width: 360px;"/>
+            <blockquote>StackStarter.io/spin</blockquote>
+            <blockquote style="font-size: .8em">Spin Code: #nedcamp</blockquote>
+            <aside class="notes">
+              <ul>
+                <li>Set up stackstarter on one laptop / pair</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+
+        <!-- Getting situated in the new environment -->
+        <section>
+          <section>
+            <h2>Under the hood</h2>
+            <p>We can do alot with just core. Let's see how we can extend.</p>
+            <img src="http://i.giphy.com/7koi3g3jtjbtS.gif"/>
+          </section>
+
+          <section>
+            <h2>File Structure</h2>
+            <aside class="notes">
+              <ul>
+                <li>Where do modules live?</li>
+                <li>Where do themes live?</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Settings.php and friends</h2>
+            <aside class="notes">
+              <ul>
+                <li>services.yml</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Make our lives easier with Drush</h2>
+            <aside class="notes">
+              <ul>
+                <li>Let's download the Examples module</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h2>What about Drupal Console?</h2>
+            <aside class="notes">
+              <ul>
+                <li>Show some of the commands available.</li>
+              </ul>
+            </aside>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Lets write some code!</h2>
+            <aside class="notes">
+              <ul>
+                <li></li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+						<h2>Stucture of a module</h2>
+						<div class="fragment" data-fragment-index="1">
+						 <p>/modules/custom/hello/hello.info.yml</p>
+            <pre><code class="yaml" data-trim>
+name: Hello
+description: A friendly Drupal 8 module
+type: module
+core: 8.x
+            </code></pre>
+            <div class="fragment" data-fragment-index="2"><p>Modules now live in the /modules directory</p>
+            </div>
+            <div class="fragment" data-fragment-index="3">
+            	<p>We don't need a .module file anymore!</p>
+            </div>
+          </div>
+					</section>
+
+          <section>
+						<h2>Lets make a Page...</h2>
+						<div class="fragment" data-fragment-index="1">
+							<p>Without hook_menu!</p>
+						</div>
+						 <aside class="notes">
+              <ul>
+                <li>The Synfony Routing component is used for defining our routes</li>
+              </ul>
+            </aside>
+					</section>
+
+          <section>
+      /modules/custom/hello/src/Controller/HelloController.php
+          <pre><code class="php" data-trim>
+/**
+* Our first Drupal 8 controller.
+*/
+namespace Drupal\hello\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+
+class HelloController extends ControllerBase {
+public function sayHi() {
+
+  return array(
+      '#markup'=>"Hello Drupal 8!",
+    );
+}
+}
+          </code></pre>
+        </section>
+        <section>
+            <p>/modules/custom/hello/hello.routing.yml</p>
+            <pre>
+              <code class="yaml" data-trim>
+              hello.sayHi:
+  path: '/hello'
+  defaults:
+    _controller: '\Drupal\hello\Controller\HelloController::sayHi'
+  requirements:
+    _permission: 'access content'
+
+              </code>
+            </pre>
+          </section>
+
+          <section>
+  <h2>Lets add a menu link</h2>
+</section>
+<section>
+<p>/modules/custom/hello/hello.links.menu.yml</p>
+ <pre>
+    <code class="yaml" data-trim>
+      hello.sayHi:
+title: "Say Hi"
+route_name: hello.sayHi
+menu_name: tools
+    </code>
+  </pre>
+</section>
+
+<section>
+          <h2>What about theming our content?</h2>
+          <div class="fragment" data-fragment-index="1">
+              <p>This will look familar</p>
+          </div>
+        </section>
+
+        <section>
+          <p>/modules/custom/hello/hello.module</p>
+          <pre>
+            <code class="php" data-trim>
+              /**
+ * Implements hook_theme
+ */
+function hello_theme() {
+  $theme['say_hello'] = array(
+      'variables' => array(),
+      'template' => 'say_hello',
+  );
+
+  return $theme;
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <p>/modules/custom/hello/templates/say_hello.html.twig</p>
+          <pre>
+            <code class="twig" data-trim>
+              &lt;section>
+  {% trans %}
+    <h1>Hello!</h1>
+  {% endtrans %}
+&lt;/section>
+
+            </code>
+          </pre>
+        </section>
+        <section>
+          /modules/custom/hello/src/Controller/HelloController.php
+          <pre><code class="php" data-trim>
+/**
+ * Our first Drupal 8 controller.
+ * Lets say HI
+ */
+namespace Drupal\hello\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+
+class HelloController extends ControllerBase {
+  public function sayHi() {
+    return array(
+        '#theme'=>'say_hello',
+      );
+  }
+}
+
+          </code></pre>
+        </section>
+        <section>
+					<h2>What about Forms?</h2>
+					<div class="fragment" data-fragment-index="1">
+							<p>Very similar pattern!</p>
+					</div>
+					</section>
+          <section>
+						<p>/modules/custom/hello/src/Form/HelloRequestForm.php</p>
+						<pre>
+							<code class="php" data-trim>
+/**
+ * @file
+ * Contains \Drupal\hello\Form\HelloRequestForm.
+ */
+
+namespace Drupal\hello\Form;
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+
+class HelloRequestForm extends FormBase {
+  /**
+   * {@inheritdoc}.
+   */
+  public function getFormId() {
+    return 'hello_request';
+  }
+
+  /**
+   * {@inheritdoc}.
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['phone_number'] = array(
+      '#type' => 'tel',
+      '#title' => $this->t('Your phone number')
+    );
+    $form['actions']['#type'] = 'actions';
+    $form['actions']['submit'] = array(
+      '#type' => 'submit',
+      '#value' => $this->t('Give me a call'),
+      '#button_type' => 'primary',
+    );
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    if (strlen($form_state->getValue('phone_number')) < 3) {
+      $form_state->setErrorByName('phone_number', $this->t('The phone number is too short. Please enter a full phone number.'));
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    drupal_set_message($this->t('Your phone number is @number', array('@number' => $form_state->getValue('phone_number'))));
+  }
+}
+
+							</code>
+						</pre>
+					</section>
+          <section>
+						<p>/modules/custom/hello/hello.routing.yml</p>
+							<pre>
+							<code class="yaml" data-trim>
+							hello.requestHi:
+  path: '/hello/request'
+  defaults:
+    _form: '\Drupal\hello\Form\HelloRequestForm'
+  requirements:
+    _permission: 'access content'
+							</code>
+						</pre>
+					</section>
+        </section>
+
+        <section>
+          <h2>Lunch time!</h2>
+          <img src="images/lunch.png"/>
+        </section>
+
+        <!-- Switch to github readme file for tutorial. -->
+        <section>
+          <h2>Let's build our first real module together!</h2>
+          <p>Go to this url for the training exercise:</p>
+          <p><a href="http://bit.ly/NEDCamp">http://bit.ly/NEDCamp</a></p>
+        </section>
+
+        <!-- Wrap up slide -->
+        <section>
+          <h2>Today we covered:</h2>
+          <ul>
+            <li>Learned about the history of Drupal</li>
+            <li>Reviewed some helpful tools for D8 Development</li>
+            <li>Took a look at Drupal 8 project structure</li>
+            <li>Learned about YAML, Routing, Controllers, Plugins, Services, & OOP in Drupal</li>
+            <li>Created our first module!</li>
+          </ul>
+        </section>
+
+        <!-- Drupal Association -->
+        <section>
+          <!-- DA Video -->
+          <iframe width="853" height="480" src="https://www.youtube.com/embed/LZWqFSMul84" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+        <section>
+          <h2>Thank you!</h2>
+        </section>
+			</div>
+		<footer class="sego-logo">
+      <a class="logo" href="http://www.segosolutions.net/"><img src="images/logos/sego_logo_blkbg.png" alt="Sego Solutions logo" height="50" /></a>
+    </footer>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Parallax scrolling
+        //parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        //parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
